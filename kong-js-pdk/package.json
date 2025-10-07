@@ -1,0 +1,56 @@
+{
+  "name": "kong-pdk",
+  "version": "0.6.0",
+  "description": "Kong PDK for Javascript and Plugin Server",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./bin/kong-js-pluginserver -d $(pwd)/examples",
+    "test": "jest --coverage"
+  },
+  "files": [
+    "bin",
+    "kong",
+    "lib",
+    "cli.js",
+    "listener.js",
+    "pdk.js",
+    "server.js",
+    "plugin_test.js"
+  ],
+  "author": "Kong",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "jest": "^28.1.0",
+    "node-fetch": "^2.6.1",
+    "uuid": "^9.0.0"
+  },
+  "dependencies": {
+    "@msgpack/msgpack": "^2.7.0",
+    "@types/node": "^18.11.9",
+    "commander": "^10.0.0",
+    "node-color-log": "^10.0.2",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.2.4"
+  },
+  "directories": {
+    "example": "examples",
+    "lib": "lib",
+    "bin": "bin"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kong/kong-js-pdk.git"
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": ["/node_modules/", "plugin_test"]
+  },
+  "bugs": {
+    "url": "https://github.com/Kong/kong-js-pdk/issues"
+  },
+  "bin": {
+    "kong-js-pluginserver": "./bin/kong-js-pluginserver"
+  },
+  "homepage": "https://github.com/Kong/kong-js-pdk#readme"
+}

@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+'use strict'
+
+let path = require('path')
+
+const msgpack = require("@msgpack/msgpack")
+const logger = require('node-color-log')
+
+let cli = require('../cli')
+let Server = require('../server')
+let Listener = require('../listener')
+
+const opts = cli.parse()
+
+logger.setLevel(opts.logLevel)
+
+const ps = new Server(opts.pluginsDirectory, logger)
+if (opts.DumpPluginInfo) {
+  ps.GetPluginInfo(opts.DumpPluginInfo)
+    .then((v) => {
+      process.stdout.write(msgpack.encode(v))
+    })
+} else if (opts.DumpAllPlugins) {
+  Promise.all(function *() {
+    for (const plugin of ps.getPlugins().keys()) {
+      yield ps.GetPluginInfo(plugin)
+    }
+  }())
+  .then((values) => {
+    console.log(JSON.stringify(values))
+  })
+} else {
+  let l = new Listener(ps, path.join(opts.kongPrefix, opts.sockName))
+  l.serve()
+}
+
+ps.close()

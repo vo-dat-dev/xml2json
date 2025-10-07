@@ -1,0 +1,85 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" version="28.2.5">
+  <diagram id="KONG_DIAGRAM" name="Kong API Gateway Architecture">
+    <mxGraphModel dx="1281" dy="574" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="clients" value="CIC(XML)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="100" y="450" width="150" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow1" style="edgeStyle=elbowEdgeStyle;endArrow=classic;html=1;strokeColor=#000000;" parent="1" source="clients" target="kong" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kong" value="KONG (API Gateway)&lt;div&gt;localhost:8000&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="400" y="450" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow2" style="edgeStyle=elbowEdgeStyle;endArrow=classic;html=1;strokeColor=#000000;" parent="1" source="kong" target="backend" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="backend" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="660" y="380" width="360" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="microservices" value="BE(JSON)&lt;div&gt;NestJS&lt;/div&gt;&lt;div&gt;localhost:3000&lt;/div&gt;&lt;div&gt;/customer/info&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="backend" vertex="1">
+          <mxGeometry x="180" y="84.62" width="151.58" height="95.38" as="geometry" />
+        </mxCell>
+        <mxCell id="plugins" value="Authentication | Rate-Limiting | Monitoring | Caching | Custom Plugin" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="360" y="320" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="plugins_arrow" style="edgeStyle=elbowEdgeStyle;endArrow=classic;html=1;strokeColor=#000000;" parent="1" source="plugins" target="kong" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="SMVDRZf7HSACv3mXkHM0-6" value="Mục tiêu" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="210" y="1010" width="230" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="SMVDRZf7HSACv3mXkHM0-7" value="Chuyển từ XML đến JSON" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="SMVDRZf7HSACv3mXkHM0-6" vertex="1">
+          <mxGeometry y="30" width="230" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="SMVDRZf7HSACv3mXkHM0-10" value="" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="kong" target="clients" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="280" y="600" as="sourcePoint" />
+            <mxPoint x="320" y="510" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SMVDRZf7HSACv3mXkHM0-11" value="" style="endArrow=classic;html=1;rounded=0;exitX=-0.003;exitY=0.6;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;exitPerimeter=0;" parent="1" source="backend" target="kong" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="450" y="650" as="sourcePoint" />
+            <mxPoint x="500" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SMVDRZf7HSACv3mXkHM0-15" value="xml to json" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="290" y="450" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="SMVDRZf7HSACv3mXkHM0-17" value="json" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="580" y="450" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="SMVDRZf7HSACv3mXkHM0-18" value="json to xml" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="590" y="520" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="SMVDRZf7HSACv3mXkHM0-19" value="xml" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="290" y="510" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="SMVDRZf7HSACv3mXkHM0-20" value="Vấn đề" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="460" y="1010" width="320" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="SMVDRZf7HSACv3mXkHM0-21" value="Kong không có plugin để chuyền từ xml đến json và json đến xml =&amp;gt; phải viết custom plugin từ xml đến json và ngược lại" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="SMVDRZf7HSACv3mXkHM0-20" vertex="1">
+          <mxGeometry y="30" width="320" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="SMVDRZf7HSACv3mXkHM0-24" value="Đã giải quyết" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="150" y="1200" width="320" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="SMVDRZf7HSACv3mXkHM0-25" value="Giải quyết được chuyền từ json đến xml khi GET" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="SMVDRZf7HSACv3mXkHM0-24" vertex="1">
+          <mxGeometry y="30" width="320" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="SMVDRZf7HSACv3mXkHM0-26" value="Chưa giải quyết" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="480" y="1200" width="320" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="SMVDRZf7HSACv3mXkHM0-27" value="Chuyền từ XML đến JSON khi POST, PUT" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="SMVDRZf7HSACv3mXkHM0-26" vertex="1">
+          <mxGeometry y="30" width="320" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="SKobsyU_69jpqwbHB8fM-1" value="add plugin" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="490" y="410" width="60" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
