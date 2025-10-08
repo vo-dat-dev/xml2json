@@ -1,0 +1,6 @@
+{
+  "name": "js-goodbye",
+  "version": "1.0.0",
+  "priority": 1000,
+  "handler": "index.js"
+}

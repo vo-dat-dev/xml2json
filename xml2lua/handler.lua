@@ -43,7 +43,6 @@ function xmljsontransformer:body_filter(config)
   local response_body = kong.service.response.get_raw_body()
   local json2lua = cjson.decode(response_body)
   local xml_result = table_to_xml(json2lua, "response")
-  print(xml_result)
   kong.response.set_raw_body(xml_result)
 end
 

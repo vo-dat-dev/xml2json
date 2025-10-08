@@ -82,8 +82,6 @@ services:
     build: ./cic
     container_name: nestjs-app
     restart: unless-stopped
-    # ports:
-    #   - "3000:3000"
     networks:
       - kong-net
 
@@ -117,7 +115,8 @@ services:
       sh -c "kong migrations bootstrap &&
              kong migrations up && tail -f /dev/null"
     networks:
-      - kong-net # Kong Gateway
+      - kong-net
+
   kong:
     container_name: kong-api-gateway
     build:
@@ -127,6 +126,7 @@ services:
       - kong-database
       - kong-migrations
       - nestjs
+      - keycloak
     environment:
       KONG_DATABASE: postgres
       KONG_PG_HOST: kong-database
@@ -137,21 +137,26 @@ services:
       KONG_ADMIN_LISTEN: 0.0.0.0:8001
       KONG_PROXY_LISTEN: 0.0.0.0:8000
       KONG_MANAGER_LISTEN: 0.0.0.0:8002
-      # KONG_PLUGINS: bundled,xml2json
+      KONG_PLUGINS: bundled,xml2json,myjwt
       KONG_LUA_PACKAGE_PATH: /usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;./?.lua;./?/init.lua;
-      # KONG_PLUGINS: bundled,kong-plugin-xml-json-transformer
-
-    #   KONG_LUA_PACKAGE_PATH: "/xml2lua/?.lua"
-    # command: /bin/sh -c  "kong migrations up"
     ports:
       - "8000:8000" # Proxy
       - "8001:8001" # Admin API
       - "8002:8002" # Manager UI
+    networks:
+      - kong-net
 
-    # volumes:
-    # - ./kong.conf:/usr/local/kong/kong.conf
-    # - ./kong:/usr/local/kong
-
+  # Keycloak service (updated to the official Keycloak image)
+  keycloak:
+    image: quay.io/keycloak/keycloak:15.0.2
+    container_name: keycloak
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_REALM: myrealm
+      KEYCLOAK_HOSTNAME: keycloak.local
+    ports:
+      - "8080:8080"
     networks:
       - kong-net
 
