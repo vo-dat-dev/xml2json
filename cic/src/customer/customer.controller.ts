@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Header } from '@nestjs/common';
+import xml2js from 'xml2js';
 
 @Controller('customer')
 export class CustomerController {
@@ -9,5 +10,18 @@ export class CustomerController {
       name: 'John Doe',
       email: 'john@example.com',
     };
+  }
+
+  @Get('info/xml')
+  getCustomerInfoByXML() {
+    const response = {
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+    };
+
+    const builder = new xml2js.Builder();
+    const xml = builder.buildObject(response, { rootName: 'response' });
+
+    return xml;
   }
 }

@@ -30,49 +30,44 @@ class KongPlugin {
     this.config = config;
   }
 
+  // Giai đoạn xử lý request đầu tiên (access phase)
   async access(kong) {
-    const json = {
-      name: "myjwt",
-      version: "0.1.0",
-      description: "hello JS plugin from kong",
-      dependencies: {
-        "kong-pdk": "^0.5.5",
-      },
-    };
-
-    const builder = new xml2js.Builder({ pretty: true });
-
-    // Convert JSON to XML
-    const xml = builder.buildObject(json);
-
-    kong.log.info("calling xml from json", xml);
+    kong.request.enable_buffering();
 
     await Promise.all([
-      kong.response.setHeader("x-hello-from-javascript", xml),
       kong.response.setHeader("x-javascript-pid", process.pid),
     ]);
   }
 
-  async header_filter(kong) {
-    kong.response.setHeader("x-hello-from-javascript", "Javascript");
+  // Giai đoạn thay đổi nội dung body của response
+  async response(kong) {
+    const body = await kong.response.getRawBody();
+    kong.response.setHeader("Content-Type", "application/xml");
+    xml2js.parseString(body, (err, result) => {
+      if (err) {
+        console.error("Error parsing XML:", err);
+      } else {
+        console.log("Converted JSON:", JSON.stringify(result, null, 2));
+        kong.response.setHeader(
+          "Content-Length",
+          JSON.stringify(result, null, 2).length
+        );
+        kong.response.setRawBody(JSON.stringify(result, null, 2));
+      }
+    });
+    // kong.response.setRawBody("<h1>hello world</h1>");
+  }
+  // Giai đoạn trước khi request được xử lý, thường dùng để làm các kiểm tra ban đầu
+  async preread(kong) {
+    // Kiểm tra hoặc chuẩn bị dữ liệu ban đầu ở đây
+    kong.log.info("Pre-read phase: preparing for request processing.");
   }
 
-  async body_filter(kong) {
-    // Manipulating the response body
-    const responseBody = kong.response.getBody(); // Get the response body
-
-    if (responseBody) {
-      // Example: Append some text to the response body
-      const modifiedBody = responseBody + "\n<!-- Added by MyPlugin -->";
-
-      // Log the modified response body for debugging
-      kong.log.info("Modified body:", modifiedBody);
-
-      // Set the new body
-      await kong.response.setBody(modifiedBody);
-    } else {
-      kong.log.info("No body found to modify.");
-    }
+  // Giai đoạn thay đổi URL request hoặc header trong request trước khi gửi đến upstream
+  async rewrite(kong) {
+    // Thay đổi URL request hoặc các header tại đây
+    kong.request.setHeader("x-rewritten-header", "new value");
+    kong.log.info("Rewritten request headers.");
   }
 }
 
