@@ -1,0 +1,10 @@
+{
+  "name": "myjwt",
+  "version": "0.1.0",
+  "description": "hello JS plugin from kong",
+  "main": "myjwt.js",
+  "dependencies": {
+    "kong-pdk": "^0.5.5",
+    "xml2js": "^0.4.23"
+  }
+}
