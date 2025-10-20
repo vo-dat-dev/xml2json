@@ -25,7 +25,7 @@ controller:
     # If you set gateway.admin.tls.containerPort, change these annotations
     # to use that value.
     traffic.kuma.io/exclude-outbound-ports: "8444"
-    traffic.sidecar.istio.io/excludeOutboundPorts: "8444"
+    traffic.sidecar.istio.io/excludeOutboundPorts: "8444"   
 
 gateway:
   enabled: true
@@ -33,20 +33,41 @@ gateway:
     kong:
       enabled: true
 
+  image: 
+    repository: vodat/custom-plugin
+    tag: "1.0.0"
+
+  plugins:
+     configMaps:
+       - name: kong-plugin-myheader
+         pluginName: myheader
+       - name: kong-plugin-xml2lua
+         pluginName: xml2lua 
+
   admin:
     enabled: true
     type: ClusterIP
     clusterIP: None
     http:
       enabled: true
-      nodePort: 32080
-      servicePort: 32080
-      containerPort: 32080
 
-  ingressController:
-    enabled: false
+  postgresql:
+    enabled: true
+    image:
+      repository: bitnami/postgresql
+      tag: latest     
+    auth:
+      username: kong
+      password: kong
+      postgresPassword: kong
+      database: kong
+    postgresPassword: kong
 
   env:
-    role: traditional
-    database: "off"
-    KONG_ADMIN_API_URL: "http://localhost:32080"
+    database: "postgres"
+    # KONG_ADMIN_API_URL: "http://localhost:32080"
+    pluginserver_names: myjwt
+    KONG_PLUGINS: bundled,myjwt
+    pluginserver_myjwt_start_cmd: /usr/bin/kong-js-pluginserver -v --plugins-directory /usr/local/kong/js-plugins
+    pluginserver_myjwt_query_cmd: /usr/bin/kong-js-pluginserver --plugins-directory /usr/local/kong/js-plugins --dump-all-plugins
+    pluginserver_myjwt_socket: /usr/local/kong/js_pluginserver.sock

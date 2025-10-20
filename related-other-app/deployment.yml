@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cic
+  namespace: kong
+  labels:
+    app.kubernetes.io/name: cic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: cic
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: cic
+    spec:
+      containers:
+        - name: app
+          image: vodat/cic:1.0.0 # tránh :latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          resources:
+            requests: { cpu: "250m", memory: "64Mi" }
+            limits: { cpu: "500m", memory: "128Mi" }
