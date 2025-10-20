@@ -65,7 +65,7 @@ gateway:
 
   env:
     database: "postgres"
-    # KONG_ADMIN_API_URL: "http://localhost:32080"
+    KONG_ADMIN_API_URL: "http://localhost:32080"
     pluginserver_names: myjwt
     KONG_PLUGINS: bundled,myjwt
     pluginserver_myjwt_start_cmd: /usr/bin/kong-js-pluginserver -v --plugins-directory /usr/local/kong/js-plugins
